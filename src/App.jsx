@@ -5,27 +5,25 @@ import { Toaster, toast } from "react-hot-toast";
 
 function App() {
   const [cityName, setCityname] = useState("");
-  const [info, setInfo] = useState("Sukkur");
+  const [info, setInfo] = useState("");
 
-  const options = {
-    method: "GET",
-    url: "https://openweather43.p.rapidapi.com/weather",
-    params: {
-      q: cityName,
-      appid: [
-        "da0f9c8d90bde7e619c3ec47766a42f4",
-        "da0f9c8d90bde7e619c3ec47766a42f4",
-      ],
-      units: "metric",
-    },
-    headers: {
-      "X-RapidAPI-Key": "eece9701d5msh16333191a55c652p17b5b7jsnb7792f8d8b1c",
-      "X-RapidAPI-Host": "openweather43.p.rapidapi.com",
-    },
-  };
+const options = {
+  method: 'GET',
+  url: 'https://weather-by-api-ninjas.p.rapidapi.com/v1/weather',
+  params: {city: cityName},
+  headers: {
+    'X-RapidAPI-Key': 'eece9701d5msh16333191a55c652p17b5b7jsnb7792f8d8b1c',
+    'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
+  }
+};
+
   const getResult = () => {
-    axios.request(options).then((res) => setInfo(res.data));
+    axios.request(options).then(res => {
+      setInfo(res.data)
+    }
+    );
   };
+  console.log(info);
   return (
     <div className="Home">
       <div className="logo">
@@ -51,28 +49,15 @@ function App() {
         Search
       </button>
       <div className="result">
-        {info === null ? (
-          <div className="info-sect">
-            <h1>
-              <label htmlFor="">Temperature : </label>
-              {JSON.stringify(info.main.temp)}
-            </h1>
-            <h1>
-              <label htmlFor="">Feels Like : </label>
-              {JSON.stringify(info.main.feels_like)}
-            </h1>
-            <h1>
-              <label htmlFor="">Maximum Temperature: </label>
-              {JSON.stringify(info.main.temp_max)}
-            </h1>
-            <h1>
-              <label htmlFor="">Humidity : </label>
-              {JSON.stringify(info.main.humidity) + "%"}
-            </h1>
-          </div>
-        ) : (
-          "Getting Data"
-        )}
+       {
+        <div className="info-sect">
+        <h1><label htmlFor="">Temperature : </label>{JSON.stringify(info.temp)}</h1>
+        <h1><label htmlFor="">Feels Like :</label>{JSON.stringify(info.feels_like)}</h1>
+        <h1><label htmlFor="">Humidity : </label>{JSON.stringify(info.humidity) + '%'}</h1>
+        <h1><label htmlFor="">Clouds : </label>{JSON.stringify(info.cloud_pct) + '%'}</h1>
+        <h1><label htmlFor="">Wind Speed : </label>{JSON.stringify(info.wind_speed) + 'm/h'}</h1>
+        </div>
+       }
       </div>
     </div>
   );
